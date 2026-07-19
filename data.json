@@ -135,6 +135,57 @@
       "starting_capital": 8000.0,
       "tds": 0,
       "trades": 0
+    },
+    {
+      "alive": true,
+      "cash": 8000.0,
+      "cohort": "adaptive_sma_BTCINR",
+      "equity": 8000.0,
+      "fees": 0,
+      "id": 9,
+      "market": "BTCINR",
+      "market_price": 6394037.3,
+      "pnl": 0.0,
+      "pnl_pct": 0.0,
+      "position_qty": 0.0,
+      "rejections": 0,
+      "starting_capital": 8000.0,
+      "tds": 0,
+      "trades": 0
+    },
+    {
+      "alive": true,
+      "cash": 8000.0,
+      "cohort": "adaptive_sma_ETHINR",
+      "equity": 8000.0,
+      "fees": 0,
+      "id": 10,
+      "market": "BTCINR",
+      "market_price": 6394037.3,
+      "pnl": 0.0,
+      "pnl_pct": 0.0,
+      "position_qty": 0.0,
+      "rejections": 0,
+      "starting_capital": 8000.0,
+      "tds": 0,
+      "trades": 0
+    },
+    {
+      "alive": true,
+      "cash": 8000.0,
+      "cohort": "adaptive_sma_XRPINR",
+      "equity": 8000.0,
+      "fees": 0,
+      "id": 11,
+      "market": "BTCINR",
+      "market_price": 6394037.3,
+      "pnl": 0.0,
+      "pnl_pct": 0.0,
+      "position_qty": 0.0,
+      "rejections": 0,
+      "starting_capital": 8000.0,
+      "tds": 0,
+      "trades": 0
     }
   ],
   "equity_history": [
@@ -149,7 +200,7 @@
         },
         {
           "equity": 8033.9,
-          "ts": 1784476555992
+          "ts": 1784477195103
         }
       ]
     },
@@ -164,7 +215,7 @@
         },
         {
           "equity": 8033.9,
-          "ts": 1784476555992
+          "ts": 1784477195103
         }
       ]
     },
@@ -235,7 +286,7 @@
         },
         {
           "equity": 7919.45,
-          "ts": 1784476555992
+          "ts": 1784477195103
         }
       ]
     }
@@ -769,16 +820,16 @@
     }
   ],
   "summary": {
-    "agents_alive": 8,
-    "agents_total": 8,
+    "agents_alive": 11,
+    "agents_total": 11,
     "net_pnl": -163.51,
-    "net_pnl_pct": -0.26,
-    "total_capital": 64000.0,
-    "total_equity": 63836.49,
+    "net_pnl_pct": -0.19,
+    "total_capital": 88000.0,
+    "total_equity": 87836.49,
     "total_fees": 33.6,
     "total_rejections": 0,
     "total_tds": 147.99,
     "total_trades": 43
   },
-  "timestamp": "2026-07-19T15:55:55.992983Z"
+  "timestamp": "2026-07-19T16:06:35.103763Z"
 }
