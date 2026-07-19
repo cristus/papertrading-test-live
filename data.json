@@ -1,703 +1,784 @@
 {
-  "timestamp": "2026-07-19T15:10:02.131901Z",
-  "summary": {
-    "total_capital": 64000.0,
-    "total_equity": 59818.77,
-    "net_pnl": -4181.23,
-    "net_pnl_pct": -6.53,
-    "agents_alive": 8,
-    "agents_total": 8,
-    "total_trades": 43,
-    "total_rejections": 0,
-    "total_fees": 33.6,
-    "total_tds": 147.99
-  },
-  "external_data": {
-    "timestamp": "2026-07-19T15:10:02.128924Z",
-    "can_trade": true,
-    "filters": {
-      "fed_event_blocker": false,
-      "volatility_gate": false,
-      "btc_dominance_warning": false,
-      "funding_rate_bias": "NEUTRAL",
-      "onchain_front_run": false
-    },
-    "position_size_multiplier": 0.5,
-    "external_data": {
-      "fed": {
-        "has_event": false,
-        "event_name": null,
-        "should_trade": true,
-        "risk_level": "NORMAL"
-      },
-      "btc_dominance": {
-        "btc_dominance": 50,
-        "regime": "UNKNOWN",
-        "trend": "neutral"
-      },
-      "funding_rates": {
-        "btc_funding_rate": 0.000375,
-        "eth_funding_rate": 0.00045,
-        "xrp_funding_rate": 0.0003,
-        "squeeze_signal": "NONE",
-        "long_leverage_ratio": 0.5,
-        "trade_bias": "NEUTRAL"
-      },
-      "volatility": {
-        "vol_4h_pct": 0,
-        "vol_1h_pct": 0,
-        "volatility_regime": "INSUFFICIENT_DATA",
-        "should_trade": true,
-        "position_size_multiplier": 0.5
-      },
-      "onchain": {
-        "large_transfer_detected": false,
-        "exchange_inflow_signal": "NEUTRAL",
-        "whale_accumulation": "POSSIBLE",
-        "front_run_opportunity": false,
-        "suggested_action": "HOLD"
-      }
-    },
-    "decision_reason": "\u2713 No major Fed events | \u2713 Good volatility (0%) | \u2713 Altseason active \u2014 full position sizes"
-  },
   "agents": [
     {
-      "id": 1,
+      "alive": true,
+      "cash": 7200.38,
       "cohort": "survivor_sma_ethinr",
-      "starting_capital": 8000.0,
-      "equity": 7200.38,
-      "pnl": -799.62,
-      "pnl_pct": -10.0,
-      "position_qty": 0.00449,
-      "cash": 7200.38,
-      "trades": 1,
-      "rejections": 0,
+      "equity": 8033.9,
       "fees": 0.8,
+      "id": 1,
+      "market": "ETHINR",
+      "market_price": 185638.0,
+      "pnl": 33.9,
+      "pnl_pct": 0.42,
+      "position_qty": 0.00449,
+      "rejections": 0,
+      "starting_capital": 8000.0,
       "tds": 0.0,
-      "alive": true
+      "trades": 1
     },
     {
-      "id": 2,
+      "alive": true,
+      "cash": 7200.38,
       "cohort": "survivor_ema_ethinr",
-      "starting_capital": 8000.0,
-      "equity": 7200.38,
-      "pnl": -799.62,
-      "pnl_pct": -10.0,
-      "position_qty": 0.00449,
-      "cash": 7200.38,
-      "trades": 1,
-      "rejections": 0,
+      "equity": 8033.9,
       "fees": 0.8,
+      "id": 2,
+      "market": "ETHINR",
+      "market_price": 185638.0,
+      "pnl": 33.9,
+      "pnl_pct": 0.42,
+      "position_qty": 0.00449,
+      "rejections": 0,
+      "starting_capital": 8000.0,
       "tds": 0.0,
-      "alive": true
+      "trades": 1
     },
     {
-      "id": 3,
-      "cohort": "baseline_sma_BTCINR",
-      "starting_capital": 8000.0,
-      "equity": 7152.17,
-      "pnl": -847.83,
-      "pnl_pct": -10.6,
-      "position_qty": 0.00012,
+      "alive": true,
       "cash": 7152.17,
-      "trades": 15,
-      "rejections": 0,
+      "cohort": "baseline_sma_BTCINR",
+      "equity": 7919.45,
       "fees": 11.25,
+      "id": 3,
+      "market": "BTCINR",
+      "market_price": 6394037.3,
+      "pnl": -80.55,
+      "pnl_pct": -1.01,
+      "position_qty": 0.00012,
+      "rejections": 0,
+      "starting_capital": 8000.0,
       "tds": 52.34,
-      "alive": true
+      "trades": 15
     },
     {
-      "id": 4,
-      "cohort": "baseline_sma_ETHINR",
-      "starting_capital": 8000.0,
-      "equity": 7116.96,
-      "pnl": -883.04,
-      "pnl_pct": -11.04,
-      "position_qty": 0.00428,
+      "alive": true,
       "cash": 7116.96,
-      "trades": 15,
-      "rejections": 0,
+      "cohort": "baseline_sma_ETHINR",
+      "equity": 7911.49,
       "fees": 11.96,
+      "id": 4,
+      "market": "ETHINR",
+      "market_price": 185638.0,
+      "pnl": -88.51,
+      "pnl_pct": -1.11,
+      "position_qty": 0.00428,
+      "rejections": 0,
+      "starting_capital": 8000.0,
       "tds": 55.72,
-      "alive": true
+      "trades": 15
     },
     {
-      "id": 5,
-      "cohort": "baseline_sma_XRPINR",
-      "starting_capital": 8000.0,
-      "equity": 7148.88,
-      "pnl": -851.12,
-      "pnl_pct": -10.64,
-      "position_qty": 7.26131,
+      "alive": true,
       "cash": 7148.88,
-      "trades": 11,
-      "rejections": 0,
+      "cohort": "baseline_sma_XRPINR",
+      "equity": 7937.75,
       "fees": 8.79,
+      "id": 5,
+      "market": "XRPINR",
+      "market_price": 108.64,
+      "pnl": -62.25,
+      "pnl_pct": -0.78,
+      "position_qty": 7.26131,
+      "rejections": 0,
+      "starting_capital": 8000.0,
       "tds": 39.93,
-      "alive": true
+      "trades": 11
     },
     {
-      "id": 6,
+      "alive": true,
+      "cash": 8000.0,
       "cohort": "buyhold_BTCINR",
-      "starting_capital": 8000.0,
       "equity": 8000.0,
+      "fees": 0,
+      "id": 6,
+      "market": "BTCINR",
+      "market_price": 6394037.3,
       "pnl": 0.0,
       "pnl_pct": 0.0,
       "position_qty": 0.0,
-      "cash": 8000.0,
-      "trades": 0,
       "rejections": 0,
-      "fees": 0,
+      "starting_capital": 8000.0,
       "tds": 0,
-      "alive": true
+      "trades": 0
     },
     {
-      "id": 7,
+      "alive": true,
+      "cash": 8000.0,
       "cohort": "buyhold_ETHINR",
-      "starting_capital": 8000.0,
       "equity": 8000.0,
+      "fees": 0,
+      "id": 7,
+      "market": "ETHINR",
+      "market_price": 185638.0,
       "pnl": 0.0,
       "pnl_pct": 0.0,
       "position_qty": 0.0,
-      "cash": 8000.0,
-      "trades": 0,
       "rejections": 0,
-      "fees": 0,
+      "starting_capital": 8000.0,
       "tds": 0,
-      "alive": true
+      "trades": 0
     },
     {
-      "id": 8,
+      "alive": true,
+      "cash": 8000.0,
       "cohort": "buyhold_XRPINR",
-      "starting_capital": 8000.0,
       "equity": 8000.0,
+      "fees": 0,
+      "id": 8,
+      "market": "XRPINR",
+      "market_price": 108.64,
       "pnl": 0.0,
       "pnl_pct": 0.0,
       "position_qty": 0.0,
-      "cash": 8000.0,
-      "trades": 0,
       "rejections": 0,
-      "fees": 0,
+      "starting_capital": 8000.0,
       "tds": 0,
-      "alive": true
+      "trades": 0
     }
   ],
+  "equity_history": [
+    {
+      "agent_id": 1,
+      "cohort": "survivor_sma_ethinr",
+      "market": "ETHINR",
+      "points": [
+        {
+          "equity": 7998.0,
+          "ts": 1784466652990
+        },
+        {
+          "equity": 8033.9,
+          "ts": 1784476555992
+        }
+      ]
+    },
+    {
+      "agent_id": 2,
+      "cohort": "survivor_ema_ethinr",
+      "market": "ETHINR",
+      "points": [
+        {
+          "equity": 7998.0,
+          "ts": 1784466652990
+        },
+        {
+          "equity": 8033.9,
+          "ts": 1784476555992
+        }
+      ]
+    },
+    {
+      "agent_id": 3,
+      "cohort": "baseline_sma_BTCINR",
+      "market": "BTCINR",
+      "points": [
+        {
+          "equity": 7998.11,
+          "ts": 1784466652966
+        },
+        {
+          "equity": 7983.51,
+          "ts": 1784466652966
+        },
+        {
+          "equity": 7981.61,
+          "ts": 1784466652967
+        },
+        {
+          "equity": 7966.91,
+          "ts": 1784466652969
+        },
+        {
+          "equity": 7965.02,
+          "ts": 1784466652970
+        },
+        {
+          "equity": 7951.92,
+          "ts": 1784466652972
+        },
+        {
+          "equity": 7950.03,
+          "ts": 1784466652972
+        },
+        {
+          "equity": 7940.24,
+          "ts": 1784466652973
+        },
+        {
+          "equity": 7938.35,
+          "ts": 1784466652974
+        },
+        {
+          "equity": 7926.09,
+          "ts": 1784466652975
+        },
+        {
+          "equity": 7924.23,
+          "ts": 1784466652981
+        },
+        {
+          "equity": 7909.34,
+          "ts": 1784466652982
+        },
+        {
+          "equity": 7907.49,
+          "ts": 1784466652987
+        },
+        {
+          "equity": 7898.12,
+          "ts": 1784466652989
+        },
+        {
+          "equity": 7896.26,
+          "ts": 1784466652990
+        },
+        {
+          "equity": 7919.45,
+          "ts": 1784476555992
+        }
+      ]
+    }
+  ],
+  "filters": {
+    "death_threshold": "40% of starting capital",
+    "emergency_pause": false,
+    "fee_structure": "0.1% taker + 0.05% spread + 0.1% slippage + 1% TDS on sells",
+    "max_capital_per_trade": "10%",
+    "min_notional": 100.0,
+    "position_limit": "1 open position per agent",
+    "reproduction_threshold": "200% of starting capital",
+    "trading_enabled": true
+  },
   "ledger": [
     {
-      "ts": 1784466652996,
-      "ts_iso": "2026-07-19T13:10:52.996000",
       "agent_id": 5,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.8,
       "market_price": 109.898,
       "quantity": 7.26131,
-      "fee": 0.8,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652996,
+      "ts_iso": "2026-07-19T13:10:52.996000"
     },
     {
-      "ts": 1784466652995,
-      "ts_iso": "2026-07-19T13:10:52.995000",
       "agent_id": 4,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.8,
       "market_price": 186401.0,
       "quantity": 0.00428,
-      "fee": 0.8,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652995,
+      "ts_iso": "2026-07-19T13:10:52.995000"
     },
     {
-      "ts": 1784466652994,
-      "ts_iso": "2026-07-19T13:10:52.994000",
       "agent_id": 4,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.84,
       "market_price": 183981.6,
       "quantity": 0.00455,
-      "fee": 0.84,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 8.36,
-      "reason": "strategy"
+      "ts": 1784466652994,
+      "ts_iso": "2026-07-19T13:10:52.994000"
     },
     {
-      "ts": 1784466652993,
-      "ts_iso": "2026-07-19T13:10:52.993000",
       "agent_id": 5,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.83,
       "market_price": 109.031,
       "quantity": 7.60764,
-      "fee": 0.83,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 8.28,
-      "reason": "strategy"
+      "ts": 1784466652993,
+      "ts_iso": "2026-07-19T13:10:52.993000"
     },
     {
-      "ts": 1784466652990,
-      "ts_iso": "2026-07-19T13:10:52.990000",
       "agent_id": 3,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.75,
       "market_price": 6200750.2,
       "quantity": 0.00012,
-      "fee": 0.75,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652990,
+      "ts_iso": "2026-07-19T13:10:52.990000"
     },
     {
-      "ts": 1784466652990,
-      "ts_iso": "2026-07-19T13:10:52.990000",
       "agent_id": 2,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.8,
       "market_price": 177643.7,
       "quantity": 0.00449,
-      "fee": 0.8,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652990,
+      "ts_iso": "2026-07-19T13:10:52.990000"
     },
     {
-      "ts": 1784466652990,
-      "ts_iso": "2026-07-19T13:10:52.990000",
       "agent_id": 1,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.8,
       "market_price": 177643.7,
       "quantity": 0.00449,
-      "fee": 0.8,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652990,
+      "ts_iso": "2026-07-19T13:10:52.990000"
     },
     {
-      "ts": 1784466652989,
-      "ts_iso": "2026-07-19T13:10:52.989000",
       "agent_id": 3,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.74,
       "market_price": 6164325.2,
       "quantity": 0.00012,
-      "fee": 0.74,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 7.39,
-      "reason": "strategy"
+      "ts": 1784466652989,
+      "ts_iso": "2026-07-19T13:10:52.989000"
     },
     {
-      "ts": 1784466652987,
-      "ts_iso": "2026-07-19T13:10:52.987000",
       "agent_id": 5,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.8,
       "market_price": 104.895,
       "quantity": 7.60764,
-      "fee": 0.8,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652987,
+      "ts_iso": "2026-07-19T13:10:52.987000"
     },
     {
-      "ts": 1784466652987,
-      "ts_iso": "2026-07-19T13:10:52.987000",
       "agent_id": 3,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.74,
       "market_price": 6165473.5,
       "quantity": 0.00012,
-      "fee": 0.74,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652987,
+      "ts_iso": "2026-07-19T13:10:52.987000"
     },
     {
-      "ts": 1784466652986,
-      "ts_iso": "2026-07-19T13:10:52.986000",
       "agent_id": 4,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.8,
       "market_price": 175216.8,
       "quantity": 0.00455,
-      "fee": 0.8,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652986,
+      "ts_iso": "2026-07-19T13:10:52.986000"
     },
     {
-      "ts": 1784466652985,
-      "ts_iso": "2026-07-19T13:10:52.985000",
       "agent_id": 4,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.79,
       "market_price": 173137.4,
       "quantity": 0.00459,
-      "fee": 0.79,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 7.94,
-      "reason": "strategy"
+      "ts": 1784466652985,
+      "ts_iso": "2026-07-19T13:10:52.985000"
     },
     {
-      "ts": 1784466652984,
-      "ts_iso": "2026-07-19T13:10:52.984000",
       "agent_id": 4,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.8,
       "market_price": 173834.6,
       "quantity": 0.00459,
-      "fee": 0.8,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652984,
+      "ts_iso": "2026-07-19T13:10:52.984000"
     },
     {
-      "ts": 1784466652983,
-      "ts_iso": "2026-07-19T13:10:52.983000",
       "agent_id": 4,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.79,
       "market_price": 174641.6,
       "quantity": 0.00454,
-      "fee": 0.79,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 7.92,
-      "reason": "strategy"
+      "ts": 1784466652983,
+      "ts_iso": "2026-07-19T13:10:52.983000"
     },
     {
-      "ts": 1784466652982,
-      "ts_iso": "2026-07-19T13:10:52.982000",
       "agent_id": 5,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.79,
       "market_price": 105.33,
       "quantity": 7.49151,
-      "fee": 0.79,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 7.88,
-      "reason": "strategy"
+      "ts": 1784466652982,
+      "ts_iso": "2026-07-19T13:10:52.982000"
     },
     {
-      "ts": 1784466652982,
-      "ts_iso": "2026-07-19T13:10:52.982000",
       "agent_id": 3,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.74,
       "market_price": 6170000.0,
       "quantity": 0.00012,
-      "fee": 0.74,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 7.39,
-      "reason": "strategy"
+      "ts": 1784466652982,
+      "ts_iso": "2026-07-19T13:10:52.982000"
     },
     {
-      "ts": 1784466652981,
-      "ts_iso": "2026-07-19T13:10:52.981000",
       "agent_id": 4,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.8,
       "market_price": 175605.0,
       "quantity": 0.00454,
-      "fee": 0.8,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652981,
+      "ts_iso": "2026-07-19T13:10:52.981000"
     },
     {
-      "ts": 1784466652981,
-      "ts_iso": "2026-07-19T13:10:52.981000",
       "agent_id": 3,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.75,
       "market_price": 6217010.4,
       "quantity": 0.00012,
-      "fee": 0.75,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652981,
+      "ts_iso": "2026-07-19T13:10:52.981000"
     },
     {
-      "ts": 1784466652980,
-      "ts_iso": "2026-07-19T13:10:52.980000",
       "agent_id": 5,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.8,
       "market_price": 106.521,
       "quantity": 7.49151,
-      "fee": 0.8,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652980,
+      "ts_iso": "2026-07-19T13:10:52.980000"
     },
     {
-      "ts": 1784466652979,
-      "ts_iso": "2026-07-19T13:10:52.979000",
       "agent_id": 4,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.78,
       "market_price": 174982.5,
       "quantity": 0.00445,
-      "fee": 0.78,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 7.78,
-      "reason": "strategy"
+      "ts": 1784466652979,
+      "ts_iso": "2026-07-19T13:10:52.979000"
     },
     {
-      "ts": 1784466652978,
-      "ts_iso": "2026-07-19T13:10:52.978000",
       "agent_id": 4,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.8,
       "market_price": 178952.0,
       "quantity": 0.00445,
-      "fee": 0.8,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652978,
+      "ts_iso": "2026-07-19T13:10:52.978000"
     },
     {
-      "ts": 1784466652977,
-      "ts_iso": "2026-07-19T13:10:52.977000",
       "agent_id": 5,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.79,
       "market_price": 106.753,
       "quantity": 7.4137,
-      "fee": 0.79,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 7.9,
-      "reason": "strategy"
+      "ts": 1784466652977,
+      "ts_iso": "2026-07-19T13:10:52.977000"
     },
     {
-      "ts": 1784466652977,
-      "ts_iso": "2026-07-19T13:10:52.977000",
       "agent_id": 4,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.79,
       "market_price": 176719.0,
       "quantity": 0.00448,
-      "fee": 0.79,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 7.91,
-      "reason": "strategy"
+      "ts": 1784466652977,
+      "ts_iso": "2026-07-19T13:10:52.977000"
     },
     {
-      "ts": 1784466652977,
-      "ts_iso": "2026-07-19T13:10:52.977000",
       "agent_id": 5,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.8,
       "market_price": 107.639,
       "quantity": 7.4137,
-      "fee": 0.8,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652977,
+      "ts_iso": "2026-07-19T13:10:52.977000"
     },
     {
-      "ts": 1784466652976,
-      "ts_iso": "2026-07-19T13:10:52.976000",
       "agent_id": 5,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.79,
       "market_price": 107.639,
       "quantity": 7.38728,
-      "fee": 0.79,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 7.94,
-      "reason": "strategy"
+      "ts": 1784466652976,
+      "ts_iso": "2026-07-19T13:10:52.976000"
     },
     {
-      "ts": 1784466652975,
-      "ts_iso": "2026-07-19T13:10:52.975000",
       "agent_id": 5,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.8,
       "market_price": 108.024,
       "quantity": 7.38728,
-      "fee": 0.8,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652975,
+      "ts_iso": "2026-07-19T13:10:52.975000"
     },
     {
-      "ts": 1784466652975,
-      "ts_iso": "2026-07-19T13:10:52.975000",
       "agent_id": 3,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.75,
       "market_price": 6266860.9,
       "quantity": 0.00012,
-      "fee": 0.75,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 7.51,
-      "reason": "strategy"
+      "ts": 1784466652975,
+      "ts_iso": "2026-07-19T13:10:52.975000"
     },
     {
-      "ts": 1784466652974,
-      "ts_iso": "2026-07-19T13:10:52.974000",
       "agent_id": 3,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.76,
       "market_price": 6290752.9,
       "quantity": 0.00012,
-      "fee": 0.76,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652974,
+      "ts_iso": "2026-07-19T13:10:52.974000"
     },
     {
-      "ts": 1784466652973,
-      "ts_iso": "2026-07-19T13:10:52.973000",
       "agent_id": 5,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.79,
       "market_price": 107.401,
       "quantity": 7.3896,
-      "fee": 0.79,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 7.92,
-      "reason": "strategy"
+      "ts": 1784466652973,
+      "ts_iso": "2026-07-19T13:10:52.973000"
     },
     {
-      "ts": 1784466652973,
-      "ts_iso": "2026-07-19T13:10:52.973000",
       "agent_id": 3,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.75,
       "market_price": 6290752.9,
       "quantity": 0.00012,
-      "fee": 0.75,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 7.54,
-      "reason": "strategy"
+      "ts": 1784466652973,
+      "ts_iso": "2026-07-19T13:10:52.973000"
     },
     {
-      "ts": 1784466652972,
-      "ts_iso": "2026-07-19T13:10:52.972000",
       "agent_id": 3,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.76,
       "market_price": 6293870.5,
       "quantity": 0.00012,
-      "fee": 0.76,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652972,
+      "ts_iso": "2026-07-19T13:10:52.972000"
     },
     {
-      "ts": 1784466652972,
-      "ts_iso": "2026-07-19T13:10:52.972000",
       "agent_id": 3,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.75,
       "market_price": 6265402.4,
       "quantity": 0.00012,
-      "fee": 0.75,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 7.51,
-      "reason": "strategy"
+      "ts": 1784466652972,
+      "ts_iso": "2026-07-19T13:10:52.972000"
     },
     {
-      "ts": 1784466652971,
-      "ts_iso": "2026-07-19T13:10:52.971000",
       "agent_id": 5,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.8,
       "market_price": 107.99,
       "quantity": 7.3896,
-      "fee": 0.8,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652971,
+      "ts_iso": "2026-07-19T13:10:52.971000"
     },
     {
-      "ts": 1784466652970,
-      "ts_iso": "2026-07-19T13:10:52.970000",
       "agent_id": 3,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.76,
       "market_price": 6296360.0,
       "quantity": 0.00012,
-      "fee": 0.76,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652970,
+      "ts_iso": "2026-07-19T13:10:52.970000"
     },
     {
-      "ts": 1784466652969,
-      "ts_iso": "2026-07-19T13:10:52.969000",
       "agent_id": 4,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.8,
       "market_price": 177741.2,
       "quantity": 0.00448,
-      "fee": 0.8,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652969,
+      "ts_iso": "2026-07-19T13:10:52.969000"
     },
     {
-      "ts": 1784466652969,
-      "ts_iso": "2026-07-19T13:10:52.969000",
       "agent_id": 4,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.8,
       "market_price": 177091.3,
       "quantity": 0.0045,
-      "fee": 0.8,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 7.96,
-      "reason": "strategy"
+      "ts": 1784466652969,
+      "ts_iso": "2026-07-19T13:10:52.969000"
     },
     {
-      "ts": 1784466652969,
-      "ts_iso": "2026-07-19T13:10:52.969000",
       "agent_id": 3,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.75,
       "market_price": 6255407.3,
       "quantity": 0.00012,
-      "fee": 0.75,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 7.5,
-      "reason": "strategy"
+      "ts": 1784466652969,
+      "ts_iso": "2026-07-19T13:10:52.969000"
     },
     {
-      "ts": 1784466652968,
-      "ts_iso": "2026-07-19T13:10:52.968000",
       "agent_id": 4,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.8,
       "market_price": 177284.6,
       "quantity": 0.0045,
-      "fee": 0.8,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652968,
+      "ts_iso": "2026-07-19T13:10:52.968000"
     },
     {
-      "ts": 1784466652967,
-      "ts_iso": "2026-07-19T13:10:52.967000",
       "agent_id": 3,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.76,
       "market_price": 6299829.1,
       "quantity": 0.00012,
-      "fee": 0.76,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652967,
+      "ts_iso": "2026-07-19T13:10:52.967000"
     },
     {
-      "ts": 1784466652966,
-      "ts_iso": "2026-07-19T13:10:52.966000",
       "agent_id": 4,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.79,
       "market_price": 175500.0,
       "quantity": 0.00449,
-      "fee": 0.79,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 7.87,
-      "reason": "strategy"
+      "ts": 1784466652966,
+      "ts_iso": "2026-07-19T13:10:52.966000"
     },
     {
-      "ts": 1784466652966,
-      "ts_iso": "2026-07-19T13:10:52.966000",
       "agent_id": 3,
       "event_type": "FILL",
-      "side": "SELL",
+      "fee": 0.75,
       "market_price": 6265630.0,
       "quantity": 0.00012,
-      "fee": 0.75,
+      "reason": "strategy",
+      "side": "SELL",
       "tds": 7.51,
-      "reason": "strategy"
+      "ts": 1784466652966,
+      "ts_iso": "2026-07-19T13:10:52.966000"
     },
     {
-      "ts": 1784466652966,
-      "ts_iso": "2026-07-19T13:10:52.966000",
       "agent_id": 3,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.76,
       "market_price": 6309080.5,
       "quantity": 0.00012,
-      "fee": 0.76,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652966,
+      "ts_iso": "2026-07-19T13:10:52.966000"
     },
     {
-      "ts": 1784466652965,
-      "ts_iso": "2026-07-19T13:10:52.965000",
       "agent_id": 4,
       "event_type": "FILL",
-      "side": "BUY",
+      "fee": 0.8,
       "market_price": 177466.4,
       "quantity": 0.00449,
-      "fee": 0.8,
+      "reason": "strategy",
+      "side": "BUY",
       "tds": 0,
-      "reason": "strategy"
+      "ts": 1784466652965,
+      "ts_iso": "2026-07-19T13:10:52.965000"
     }
-  ]
+  ],
+  "summary": {
+    "agents_alive": 8,
+    "agents_total": 8,
+    "net_pnl": -163.51,
+    "net_pnl_pct": -0.26,
+    "total_capital": 64000.0,
+    "total_equity": 63836.49,
+    "total_fees": 33.6,
+    "total_rejections": 0,
+    "total_tds": 147.99,
+    "total_trades": 43
+  },
+  "timestamp": "2026-07-19T15:55:55.992983Z"
 }

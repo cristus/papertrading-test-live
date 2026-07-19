@@ -1,5 +1,5 @@
-"""Simple, reliable export: agents + ledger + filter status."""
-import json, sqlite3, sys
+"""Export: agents + ledger + equity history. Uses ledger prices directly."""
+import json, sqlite3
 from datetime import datetime
 
 DB_PATH = "/workspace/paper_trader/data/phase3_exp.sqlite"
@@ -12,13 +12,35 @@ def export():
     agent_list = []
     total_equity, total_capital = 0, 0
     
+    # Market-to-agent mapping
+    market_map = {
+        "survivor_sma_ethinr": "ETHINR",
+        "survivor_ema_ethinr": "ETHINR",
+        "baseline_sma_BTCINR": "BTCINR",
+        "baseline_sma_ETHINR": "ETHINR",
+        "baseline_sma_XRPINR": "XRPINR",
+        "buyhold_BTCINR": "BTCINR",
+        "buyhold_ETHINR": "ETHINR",
+        "buyhold_XRPINR": "XRPINR",
+    }
+    
+    # Get latest price per market
+    latest_prices = {}
+    for market in ["BTCINR", "ETHINR", "XRPINR"]:
+        row = conn.execute(
+            "SELECT close FROM market_snapshots WHERE market=? ORDER BY ts DESC LIMIT 1",
+            (market,)).fetchone()
+        latest_prices[market] = row["close"] if row else 0
+    
     for a in agents:
         last = conn.execute(
             "SELECT cash_balance, position_qty FROM ledger WHERE agent_id=? ORDER BY id DESC LIMIT 1",
             (a["id"],)).fetchone()
         cash, pos = (last["cash_balance"], last["position_qty"]) if last else (a["starting_capital"], 0.0)
-        snap = conn.execute("SELECT close FROM market_snapshots WHERE source='live' ORDER BY ts DESC LIMIT 1").fetchone()
-        price = snap["close"] if snap else 0
+        
+        # Use correct market price for this agent
+        market = market_map.get(a["cohort"], "BTCINR")
+        price = latest_prices.get(market, 0)
         
         equity = cash + pos * price
         pnl = equity - a["starting_capital"]
@@ -29,15 +51,18 @@ def export():
         ft = conn.execute("SELECT COALESCE(SUM(fee),0) f, COALESCE(SUM(tds),0) t FROM ledger WHERE agent_id=? AND event_type='FILL'", (a["id"],)).fetchone()
         
         agent_list.append({
-            "id": a["id"], "cohort": a["cohort"], "starting_capital": a["starting_capital"],
-            "equity": round(equity,2), "pnl": round(pnl,2), "pnl_pct": round(pnl_pct,2),
-            "position_qty": round(pos,8), "cash": round(cash,2), "trades": fills,
+            "id": a["id"], "cohort": a["cohort"], "market": market,
+            "starting_capital": a["starting_capital"],
+            "equity": round(equity, 2), "pnl": round(pnl, 2), "pnl_pct": round(pnl_pct, 2),
+            "position_qty": round(pos, 8), "cash": round(cash, 2), "trades": fills,
             "rejections": rejects, "fees": round(ft["f"],2), "tds": round(ft["t"],2),
+            "market_price": round(price, 2),
             "alive": a["death_ts"] is None
         })
         total_equity += equity
         total_capital += a["starting_capital"]
     
+    # Ledger
     ledger = conn.execute(
         "SELECT * FROM ledger WHERE experiment_id=1 AND event_type IN ('FILL','REJECT','DEATH') ORDER BY id DESC LIMIT 80").fetchall()
     ledger_list = [{
@@ -48,16 +73,25 @@ def export():
         "reason": r["reason"]
     } for r in ledger]
     
-    # Equity history for charting (last 20 snapshots)
+    # Equity history from ledger fills
     equity_history = []
-    for a in agents[:3]:  # Top 3 agents
-        rows = conn.execute(
-            "SELECT ts, equity FROM equity_curve WHERE agent_id=? ORDER BY ts DESC LIMIT 20",
+    for a in agents[:3]:
+        fills_rows = conn.execute(
+            "SELECT ts, cash_balance, position_qty, market_price FROM ledger "
+            "WHERE agent_id=? AND event_type='FILL' ORDER BY id",
             (a["id"],)).fetchall()
+        
+        points = []
+        for r in fills_rows:
+            eq = r["cash_balance"] + r["position_qty"] * (r["market_price"] or 0)
+            points.append({"ts": r["ts"], "equity": round(eq, 2)})
+        # Current point
+        cur = agent_list[a["id"]-1]
+        points.append({"ts": int(datetime.utcnow().timestamp() * 1000), "equity": round(cur["equity"], 2)})
+        
         equity_history.append({
-            "agent_id": a["id"],
-            "cohort": a["cohort"],
-            "points": [{"ts": r["ts"], "equity": r["equity"]} for r in reversed(rows)]
+            "agent_id": a["id"], "cohort": a["cohort"], "market": cur["market"],
+            "points": points
         })
     
     data = {
@@ -74,10 +108,8 @@ def export():
             "total_tds": round(sum(a["tds"] for a in agent_list),2)
         },
         "filters": {
-            "emergency_pause": False,
-            "trading_enabled": True,
-            "max_capital_per_trade": "10%",
-            "min_notional": 100.0,
+            "emergency_pause": False, "trading_enabled": True,
+            "max_capital_per_trade": "10%", "min_notional": 100.0,
             "fee_structure": "0.1% taker + 0.05% spread + 0.1% slippage + 1% TDS on sells",
             "position_limit": "1 open position per agent",
             "death_threshold": "40% of starting capital",
@@ -92,8 +124,21 @@ def export():
     return data
 
 if __name__ == "__main__":
+    import os
     d = export()
-    with open("data.json", "w") as f:
-        json.dump(d, f, indent=2)
-    print(f"✓ Exported {len(d['agents'])} agents, {len(d['ledger'])} events, {len(d['equity_history'])} chart series")
-    print(f"  Equity: ₹{d['summary']['total_equity']:,.2f} | P&L: {d['summary']['net_pnl_pct']:+.2f}%")
+    new_json = json.dumps(d, indent=2, sort_keys=True)
+    old_json = ""
+    if os.path.exists("data.json"):
+        with open("data.json") as f:
+            old_json = f.read()
+    
+    if new_json != old_json:
+        with open("data.json", "w") as f:
+            f.write(new_json)
+        print(f"✓ UPDATED: {len(d['agents'])} agents, {len(d['ledger'])} events")
+        for e in d['equity_history']:
+            print(f"  Chart {e['cohort']}: {len(e['points'])} pts")
+        for a in d['agents']:
+            print(f"  {a['cohort']:25s} | {a['market']:7s} | price ₹{a['market_price']:>12,.2f} | equity ₹{a['equity']:>10,.2f} | {a['pnl_pct']:>+7.2f}%")
+    else:
+        print(f"- No changes")
