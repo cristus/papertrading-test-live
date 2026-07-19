@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-19T15:05:02.533269Z",
+  "timestamp": "2026-07-19T15:10:02.131901Z",
   "summary": {
     "total_capital": 64000.0,
     "total_equity": 59818.77,
@@ -13,7 +13,7 @@
     "total_tds": 147.99
   },
   "external_data": {
-    "timestamp": "2026-07-19T15:05:02.530473Z",
+    "timestamp": "2026-07-19T15:10:02.128924Z",
     "can_trade": true,
     "filters": {
       "fed_event_blocker": false,
