@@ -1,399 +1,183 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="refresh" content="300">
-    <title>Phase 3 — Live Paper Trading Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Courier New', monospace; 
-            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
-            color: #e6e6e6; 
-            padding: 20px;
-            line-height: 1.6;
-        }
-        .header { 
-            background: linear-gradient(90deg, #1a1f3a 0%, #2a2f4a 100%);
-            padding: 25px; 
-            border-left: 5px solid #00ff41; 
-            margin-bottom: 25px; 
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 255, 65, 0.1);
-        }
-        h1 { 
-            font-size: 32px; 
-            color: #00ff41; 
-            margin-bottom: 8px;
-            text-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
-        }
-        .subtitle { 
-            font-size: 13px; 
-            color: #aaa; 
-            margin-bottom: 10px;
-        }
-        .timestamp { 
-            font-size: 12px; 
-            color: #666;
-            display: flex;
-            justify-content: space-between;
-        }
-        .refresh-badge {
-            background: #004400;
-            color: #00ff41;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-        }
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
-            gap: 20px; 
-            margin-bottom: 25px; 
-        }
-        .card { 
-            background: rgba(26, 31, 58, 0.8);
-            padding: 20px; 
-            border: 1px solid #333; 
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-        }
-        .card h2 { 
-            font-size: 14px; 
-            color: #00ff41; 
-            margin-bottom: 15px; 
-            text-transform: uppercase; 
-            letter-spacing: 2px;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-        }
-        .metric { 
-            display: flex; 
-            justify-content: space-between; 
-            margin: 12px 0; 
-            font-size: 14px;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(51, 51, 51, 0.5);
-        }
-        .metric:last-child { border-bottom: none; }
-        .label { color: #aaa; }
-        .value { 
-            font-weight: bold; 
-            color: #00ff41;
-            font-family: 'Courier New', monospace;
-        }
-        .negative { color: #ff4444; }
-        .positive { color: #00ff41; }
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            font-size: 13px;
-            margin: 15px 0;
-        }
-        th { 
-            background: linear-gradient(90deg, #1a1f3a, #2a2f4a);
-            color: #00ff41; 
-            padding: 12px; 
-            text-align: left; 
-            border-bottom: 2px solid #00ff41;
-            font-weight: bold;
-        }
-        td { 
-            padding: 10px 12px; 
-            border-bottom: 1px solid #333;
-        }
-        tr:hover { background: rgba(0, 255, 65, 0.05); }
-        .status { 
-            padding: 6px 12px; 
-            border-radius: 4px; 
-            font-size: 12px; 
-            display: inline-block;
-            font-weight: bold;
-        }
-        .healthy { background: #004400; color: #00ff41; }
-        .dead { background: #440000; color: #ff4444; }
-        .section-title {
-            font-size: 18px;
-            color: #00ff41;
-            margin: 30px 0 15px 0;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #00ff41;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        .loading {
-            text-align: center;
-            padding: 40px;
-            font-size: 16px;
-            color: #aaa;
-        }
-        .error {
-            background: #440000;
-            color: #ff4444;
-            padding: 15px;
-            border-left: 4px solid #ff4444;
-            margin-bottom: 20px;
-            border-radius: 4px;
-        }
-        .footer {
-            text-align: right;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #333;
-            font-size: 12px;
-            color: #666;
-        }
-        .chart-container {
-            position: relative;
-            height: 300px;
-            margin: 20px 0;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="300">
+<title>Phase 3 — Live Paper Trading Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:monospace;background:#0a0e27;color:#e6e6e6;padding:20px;line-height:1.5}
+.header{background:linear-gradient(90deg,#1a1f3a,#2a2f4a);padding:25px;border-left:5px solid #00ff41;margin-bottom:25px;border-radius:8px;position:relative}
+h1{font-size:28px;color:#00ff41;margin-bottom:5px}
+.subtitle{font-size:12px;color:#aaa}
+.badge{display:inline-block;background:#004400;color:#00ff41;padding:3px 10px;border-radius:4px;font-size:11px;margin-left:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;margin-bottom:25px}
+.card{background:rgba(26,31,58,.8);padding:20px;border:1px solid #333;border-radius:8px}
+.card h2{font-size:13px;color:#00ff41;margin-bottom:15px;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #333;padding-bottom:8px}
+.metric{display:flex;justify-content:space-between;margin:10px 0;font-size:13px;padding:6px 0;border-bottom:1px solid rgba(51,51,51,.5)}
+.metric:last-child{border:none}
+.label{color:#aaa}.value{font-weight:bold;color:#00ff41}.negative{color:#ff4444}.positive{color:#00ff41}
+.chart-box{background:rgba(0,0,0,.3);border-radius:4px;padding:15px;margin:15px 0}
+canvas{max-height:280px}
+table{width:100%;border-collapse:collapse;font-size:12px;margin:10px 0}
+th{background:linear-gradient(90deg,#1a1f3a,#2a2f4a);color:#00ff41;padding:10px;text-align:left;border-bottom:2px solid #00ff41}
+td{padding:8px 10px;border-bottom:1px solid #333}
+tr:hover{background:rgba(0,255,65,.05)}
+.status{padding:4px 10px;border-radius:3px;font-size:11px;font-weight:bold;display:inline-block}
+.alive{background:#004400;color:#00ff41}.dead{background:#440000;color:#ff4444}
+.section-title{font-size:16px;color:#00ff41;margin:25px 0 15px;padding-bottom:8px;border-bottom:2px solid #00ff41;text-transform:uppercase;letter-spacing:2px}
+.filter-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:15px 0}
+.filter-item{background:rgba(26,31,58,.9);border:1px solid #444;border-left:3px solid #00ff41;padding:12px;border-radius:4px;font-size:11px}
+.filter-item h4{color:#00ff41;margin-bottom:6px;font-size:12px}
+.filter-value{font-size:13px;font-weight:bold}
+.footer{text-align:right;margin-top:30px;padding-top:20px;border-top:1px solid #333;font-size:11px;color:#666}
+</style>
 </head>
 <body>
-    <div class="header">
-        <h1>🚀 PHASE 3 — LIVE PAPER TRADING</h1>
-        <p class="subtitle">7-Day Continuous Experiment | Real-Time Multi-Agent Paper Trading</p>
-        <div class="timestamp">
-            <span id="timestamp">Loading...</span>
-            <span class="refresh-badge" id="refresh-badge">Auto-refresh in 300s</span>
-        </div>
-    </div>
+<div class="header">
+<h1>🚀 PHASE 3 — LIVE PAPER TRADING<span class="badge" id="refresh-badge">refresh in 300s</span></h1>
+<p class="subtitle">7-Day Continuous Experiment | 8 Agents | BTCINR · ETHINR · XRPINR | Last update: <span id="timestamp">—</span></p>
+</div>
 
-    <div id="error-container"></div>
+<div class="grid">
+<div class="card">
+<h2>📊 Portfolio</h2>
+<div class="metric"><span class="label">Total Capital</span><span class="value" id="total-capital">—</span></div>
+<div class="metric"><span class="label">Total Equity</span><span class="value" id="total-equity">—</span></div>
+<div class="metric"><span class="label">Net P&L</span><span class="value" id="net-pnl">—</span></div>
+<div class="metric"><span class="label">Return</span><span class="value" id="return-pct">—</span></div>
+</div>
 
-    <div class="grid">
-        <div class="card">
-            <h2>📊 Portfolio Summary</h2>
-            <div class="metric">
-                <span class="label">Total Capital</span>
-                <span class="value" id="total-capital">—</span>
-            </div>
-            <div class="metric">
-                <span class="label">Total Equity</span>
-                <span class="value" id="total-equity">—</span>
-            </div>
-            <div class="metric">
-                <span class="label">Net P&L</span>
-                <span class="value" id="net-pnl">—</span>
-            </div>
-            <div class="metric">
-                <span class="label">Return %</span>
-                <span class="value" id="return-pct">—</span>
-            </div>
-        </div>
+<div class="card">
+<h2>🎯 Activity</h2>
+<div class="metric"><span class="label">Agents Alive</span><span class="value" id="agents-alive">—</span></div>
+<div class="metric"><span class="label">Total Trades</span><span class="value" id="total-trades">—</span></div>
+<div class="metric"><span class="label">Rejections</span><span class="value" id="total-rejects">—</span></div>
+<div class="metric"><span class="label">Fee + TDS</span><span class="value" id="total-costs">—</span></div>
+</div>
 
-        <div class="card">
-            <h2>🎯 Agent Status</h2>
-            <div class="metric">
-                <span class="label">Agents Alive</span>
-                <span class="value" id="agents-alive">—</span>
-            </div>
-            <div class="metric">
-                <span class="label">Total Trades</span>
-                <span class="value" id="total-trades">—</span>
-            </div>
-            <div class="metric">
-                <span class="label">Fee Burden</span>
-                <span class="value" id="total-fees">—</span>
-            </div>
-            <div class="metric">
-                <span class="label">TDS Paid</span>
-                <span class="value" id="total-tds">—</span>
-            </div>
-        </div>
+<div class="card">
+<h2>⚙️ System Status</h2>
+<div class="metric"><span class="label">Trading</span><span class="value positive" id="trading-status">✓ ENABLED</span></div>
+<div class="metric"><span class="label">Emergency Pause</span><span class="value" id="pause-status">OFF</span></div>
+<div class="metric"><span class="label">Position Cap</span><span class="value">10% per trade</span></div>
+<div class="metric"><span class="label">Min Notional</span><span class="value">₹100</span></div>
+</div>
+</div>
 
-        <div class="card">
-            <h2>🏆 Top Performers</h2>
-            <div id="top-performers">—</div>
-        </div>
-    </div>
+<div class="section-title">🔍 Active Filters & Safety Rules</div>
+<div class="filter-grid" id="filter-grid">—</div>
 
-    <div class="section-title">📈 Agent Performance Table</div>
-    <div class="card">
-        <table id="agents-table">
-            <thead>
-                <tr>
-                    <th>Agent / Cohort</th>
-                    <th>Start Capital</th>
-                    <th>Equity</th>
-                    <th>P&L %</th>
-                    <th>Position</th>
-                    <th>Trades</th>
-                    <th>Fees</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="agents-tbody">
-                <tr><td colspan="8" class="loading">Loading...</td></tr>
-            </tbody>
-        </table>
-    </div>
+<div class="section-title">📈 Equity Charts</div>
+<div class="card">
+<div class="chart-box"><canvas id="equityChart"></canvas></div>
+</div>
 
-    <div class="section-title">📝 Recent Activity (Last 50 Events)</div>
-    <div class="card">
-        <table id="ledger-table">
-            <thead>
-                <tr>
-                    <th>Time</th>
-                    <th>Agent ID</th>
-                    <th>Event</th>
-                    <th>Side</th>
-                    <th>Price</th>
-                    <th>Qty</th>
-                    <th>Costs</th>
-                    <th>Reason</th>
-                </tr>
-            </thead>
-            <tbody id="ledger-tbody">
-                <tr><td colspan="8" class="loading">Loading...</td></tr>
-            </tbody>
-        </table>
-    </div>
+<div class="section-title">📊 Agent Performance</div>
+<div class="card">
+<table><thead><tr><th>Agent</th><th>Capital</th><th>Equity</th><th>P&L%</th><th>Pos</th><th>Trades</th><th>Rej</th><th>Fees</th><th>TDS</th><th>Status</th></tr></thead>
+<tbody id="agents-tbody"><tr><td colspan="10" style="text-align:center;padding:20px">Loading...</td></tr></tbody></table>
+</div>
 
-    <div class="footer">
-        Data source: SQLite ledger (real-time)<br>
-        Auto-refresh: Every 5 minutes<br>
-        Last updated: <span id="last-update">—</span>
-    </div>
+<div class="section-title">📝 Recent Activity</div>
+<div class="card">
+<table><thead><tr><th>Time</th><th>Agent</th><th>Event</th><th>Side</th><th>Price</th><th>Qty</th><th>Cost</th><th>Reason</th></tr></thead>
+<tbody id="ledger-tbody"><tr><td colspan="8" style="text-align:center;padding:20px">Loading...</td></tr></tbody></table>
+</div>
 
-    <script>
-        const DATA_URL = 'data.json';
-        let countdownInterval;
+<div class="footer">Data: SQLite ledger → GitHub Pages | Auto-refresh: 5 min | Paper trading only — no real orders</div>
 
-        async function loadData() {
-            try {
-                const response = await fetch(DATA_URL + '?t=' + Date.now());
-                if (!response.ok) throw new Error('Failed to load data');
-                
-                const data = await response.json();
-                renderDashboard(data);
-                
-                // Clear error if any
-                document.getElementById('error-container').innerHTML = '';
-                
-                // Update timestamp
-                document.getElementById('timestamp').textContent = 
-                    'Last data: ' + new Date(data.timestamp).toLocaleString();
-                document.getElementById('last-update').textContent = 
-                    new Date(data.timestamp).toLocaleString();
-                
-                // Start countdown
-                startCountdown();
-                
-            } catch (error) {
-                console.error('Error loading data:', error);
-                document.getElementById('error-container').innerHTML = 
-                    `<div class="error">⚠️ Error loading data: ${error.message}</div>`;
-            }
+<script>
+const DATA_URL = 'data.json';
+let countdownInterval;
+
+async function load() {
+  try {
+    const r = await fetch(DATA_URL + '?t=' + Date.now());
+    if (!r.ok) throw new Error('Failed');
+    const d = await r.json();
+    render(d);
+    document.getElementById('timestamp').textContent = new Date(d.timestamp).toLocaleString();
+    startCountdown();
+  } catch(e) { console.error(e); }
+}
+
+function render(d) {
+  const s = d.summary;
+  document.getElementById('total-capital').textContent = '₹' + s.total_capital.toLocaleString('en-IN',{maximumFractionDigits:0});
+  document.getElementById('total-equity').textContent = '₹' + s.total_equity.toLocaleString('en-IN',{maximumFractionDigits:0});
+  document.getElementById('net-pnl').innerHTML = '<span class="'+(s.net_pnl>=0?'positive':'negative')+'">₹'+s.net_pnl.toLocaleString('en-IN',{maximumFractionDigits:2})+'</span>';
+  document.getElementById('return-pct').innerHTML = '<span class="'+(s.net_pnl_pct>=0?'positive':'negative')+'">'+(s.net_pnl_pct>0?'+':'')+s.net_pnl_pct.toFixed(2)+'%</span>';
+  document.getElementById('agents-alive').textContent = s.agents_alive + '/' + s.agents_total;
+  document.getElementById('total-trades').textContent = s.total_trades;
+  document.getElementById('total-rejects').textContent = s.total_rejections;
+  document.getElementById('total-costs').textContent = '₹' + (s.total_fees + s.total_tds).toLocaleString('en-IN',{maximumFractionDigits:2});
+
+  // Filters
+  const f = d.filters;
+  document.getElementById('filter-grid').innerHTML = [
+    {icon:'🛡️',label:'Emergency Pause',val:f.emergency_pause?'⚠️ ACTIVE':'✓ OFF',cls:f.emergency_pause?'negative':'positive'},
+    {icon:'📊',label:'Trading Status',val:f.trading_enabled?'✓ ENABLED':'✗ DISABLED',cls:f.trading_enabled?'positive':'negative'},
+    {icon:'💰',label:'Position Cap',val:f.max_capital_per_trade,cls:'positive'},
+    {icon:'📏',label:'Min Notional',val:'₹'+f.min_notional,cls:'positive'},
+    {icon:'💸',label:'Fee Structure',val:f.fee_structure,cls:''},
+    {icon:'🔒',label:'Position Limit',val:f.position_limit,cls:'positive'},
+    {icon:'💀',label:'Death Threshold',val:f.death_threshold,cls:'positive'},
+    {icon:'🧬',label:'Reproduction At',val:f.reproduction_threshold,cls:'positive'}
+  ].map(fi => '<div class="filter-item"><h4>'+fi.icon+' '+fi.label+'</h4><div class="filter-value '+fi.cls+'">'+fi.val+'</div></div>').join('');
+
+  // Agents table
+  document.getElementById('agents-tbody').innerHTML = d.agents.map(a =>
+    '<tr><td>'+a.cohort+'</td><td>₹'+a.starting_capital.toLocaleString('en-IN',{maximumFractionDigits:0})+'</td><td>₹'+a.equity.toLocaleString('en-IN',{maximumFractionDigits:2})+'</td><td class="'+(a.pnl_pct>=0?'positive':'negative')+'">'+(a.pnl_pct>0?'+':'')+a.pnl_pct.toFixed(2)+'%</td><td>'+a.position_qty.toFixed(6)+'</td><td>'+a.trades+'</td><td>'+a.rejections+'</td><td>₹'+a.fees.toFixed(2)+'</td><td>₹'+a.tds.toFixed(2)+'</td><td><span class="status '+(a.alive?'alive':'dead')+'">'+(a.alive?'✓ ALIVE':'✗ DEAD')+'</span></td></tr>'
+  ).join('');
+
+  // Ledger
+  document.getElementById('ledger-tbody').innerHTML = d.ledger.slice(0,30).map(e =>
+    '<tr><td style="font-size:10px">'+e.ts_iso.split('T')[1].split('.')[0]+'</td><td>'+e.agent_id+'</td><td>'+e.event_type+'</td><td>'+(e.side||'—')+'</td><td>'+(e.market_price?'₹'+Math.round(e.market_price).toLocaleString():'—')+'</td><td>'+(e.quantity?e.quantity.toFixed(6):'—')+'</td><td>₹'+((e.fee+e.tds).toLocaleString('en-IN',{maximumFractionDigits:2}))+'</td><td style="font-size:10px;color:#888">'+(e.reason||'').substring(0,50)+'</td></tr>'
+  ).join('');
+
+  // Chart
+  if (d.equity_history && d.equity_history.length > 0) {
+    const ctx = document.getElementById('equityChart').getContext('2d');
+    const colors = ['#00ff41','#7cc4ff','#ffb37c'];
+    const datasets = d.equity_history.map((s,i) => ({
+      label: s.cohort,
+      data: s.points.map(p => ({x: new Date(p.ts), y: p.equity})),
+      borderColor: colors[i%3],
+      backgroundColor: 'transparent',
+      borderWidth: 2,
+      tension: 0.3
+    }));
+    if (window._chart) window._chart.destroy();
+    window._chart = new Chart(ctx, {
+      type: 'line',
+      data: { datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#aaa', font: { size: 11 } } } },
+        scales: {
+          x: { type: 'time', time: { unit: 'hour' }, ticks: { color: '#666' }, grid: { color: '#222' } },
+          y: { ticks: { color: '#666', callback: v => '₹'+v.toLocaleString() }, grid: { color: '#222' } }
         }
+      }
+    });
+  }
+}
 
-        function renderDashboard(data) {
-            const s = data.summary;
-            const agents = data.agents;
+function startCountdown() {
+  if (countdownInterval) clearInterval(countdownInterval);
+  let s = 300;
+  countdownInterval = setInterval(() => {
+    s--;
+    document.getElementById('refresh-badge').textContent = 'refresh in ' + Math.floor(s/60) + 'm ' + (s%60) + 's';
+    if (s <= 0) { clearInterval(countdownInterval); location.reload(); }
+  }, 1000);
+}
 
-            // Summary cards
-            document.getElementById('total-capital').textContent = 
-                '₹' + s.total_capital.toLocaleString('en-IN', {maximumFractionDigits: 0});
-            document.getElementById('total-equity').textContent = 
-                '₹' + s.total_equity.toLocaleString('en-IN', {maximumFractionDigits: 0});
-            document.getElementById('net-pnl').innerHTML = 
-                `<span class="${s.net_pnl >= 0 ? 'positive' : 'negative'}">₹${s.net_pnl.toLocaleString('en-IN', {maximumFractionDigits: 2})}</span>`;
-            document.getElementById('return-pct').innerHTML = 
-                `<span class="${s.net_pnl_pct >= 0 ? 'positive' : 'negative'}">${s.net_pnl_pct > 0 ? '+' : ''}${s.net_pnl_pct.toFixed(2)}%</span>`;
-
-            // Agent status
-            document.getElementById('agents-alive').textContent = `${s.agents_alive}/${s.agents_total}`;
-            document.getElementById('total-trades').textContent = s.total_trades;
-            document.getElementById('total-fees').textContent = `₹${s.total_fees.toLocaleString('en-IN', {maximumFractionDigits: 2})}`;
-            document.getElementById('total-tds').textContent = `₹${s.total_tds.toLocaleString('en-IN', {maximumFractionDigits: 2})}`;
-
-            // Top performers
-            const sorted = [...agents].sort((a, b) => b.pnl_pct - a.pnl_pct);
-            document.getElementById('top-performers').innerHTML = sorted.slice(0, 3).map(a => 
-                `<div class="metric">
-                    <span class="label">${a.cohort}</span>
-                    <span class="${a.pnl_pct >= 0 ? 'positive' : 'negative'}">${a.pnl_pct > 0 ? '+' : ''}${a.pnl_pct.toFixed(2)}%</span>
-                </div>`
-            ).join('');
-
-            // Agents table
-            document.getElementById('agents-tbody').innerHTML = agents.map(a =>
-                `<tr>
-                    <td>${a.cohort}</td>
-                    <td>₹${a.starting_capital.toLocaleString('en-IN', {maximumFractionDigits: 0})}</td>
-                    <td>₹${a.equity.toLocaleString('en-IN', {maximumFractionDigits: 2})}</td>
-                    <td><span class="${a.pnl_pct >= 0 ? 'positive' : 'negative'}">${a.pnl_pct > 0 ? '+' : ''}${a.pnl_pct.toFixed(2)}%</span></td>
-                    <td>${a.position_qty.toFixed(8)}</td>
-                    <td>${a.trades}</td>
-                    <td>₹${a.fees.toLocaleString('en-IN', {maximumFractionDigits: 2})}</td>
-                    <td><span class="status ${a.alive ? 'healthy' : 'dead'}">${a.alive ? '✓ ALIVE' : '✗ DEAD'}</span></td>
-                </tr>`
-            ).join('');
-
-            // Ledger table
-            document.getElementById('ledger-tbody').innerHTML = data.ledger.slice(0, 50).map(e =>
-                `<tr>
-                    <td style="font-size: 11px;">${e.ts_iso.split('T')[1].split('.')[0]}</td>
-                    <td>${e.agent_id}</td>
-                    <td>${e.event_type}</td>
-                    <td>${e.side || '—'}</td>
-                    <td>${e.market_price ? '₹' + Math.round(e.market_price).toLocaleString() : '—'}</td>
-                    <td>${e.quantity ? e.quantity.toFixed(8) : '—'}</td>
-                    <td>₹${(e.fee + e.tds).toLocaleString('en-IN', {maximumFractionDigits: 2})}</td>
-                    <td style="font-size: 11px; color: #888;">${(e.reason || '').substring(0, 30)}</td>
-                </tr>`
-            ).join('');
-        }
-
-        function startCountdown() {
-            if (countdownInterval) clearInterval(countdownInterval);
-            let seconds = 300;
-            
-            countdownInterval = setInterval(() => {
-                seconds--;
-                const mins = Math.floor(seconds / 60);
-                const secs = seconds % 60;
-                document.getElementById('refresh-badge').textContent = 
-                    `Auto-refresh in ${mins}m ${secs}s`;
-                
-                if (seconds <= 0) {
-                    clearInterval(countdownInterval);
-                    location.reload();
-                }
-            }, 1000);
-        }
-
-        // Load on page load
-        loadData();
-        
-        // Manual refresh button (add to header)
-        document.addEventListener('DOMContentLoaded', () => {
-            const header = document.querySelector('.header');
-            const refreshBtn = document.createElement('button');
-            refreshBtn.textContent = '🔄 Refresh Now';
-            refreshBtn.style.cssText = `
-                position: absolute;
-                top: 20px;
-                right: 20px;
-                background: #00ff41;
-                color: #0a0e27;
-                border: none;
-                padding: 8px 15px;
-                border-radius: 4px;
-                cursor: pointer;
-                font-weight: bold;
-                font-family: monospace;
-            `;
-            refreshBtn.onclick = () => {
-                loadData();
-            };
-            header.style.position = 'relative';
-            header.appendChild(refreshBtn);
-        });
-    </script>
+load();
+</script>
 </body>
 </html>
