@@ -160,8 +160,8 @@
       "equity": 8000.0,
       "fees": 0,
       "id": 10,
-      "market": "BTCINR",
-      "market_price": 6394037.3,
+      "market": "ETHINR",
+      "market_price": 185638.0,
       "pnl": 0.0,
       "pnl_pct": 0.0,
       "position_qty": 0.0,
@@ -177,8 +177,8 @@
       "equity": 8000.0,
       "fees": 0,
       "id": 11,
-      "market": "BTCINR",
-      "market_price": 6394037.3,
+      "market": "XRPINR",
+      "market_price": 108.64,
       "pnl": 0.0,
       "pnl_pct": 0.0,
       "position_qty": 0.0,
@@ -200,7 +200,7 @@
         },
         {
           "equity": 8033.9,
-          "ts": 1784477195103
+          "ts": 1784512975266
         }
       ]
     },
@@ -215,7 +215,7 @@
         },
         {
           "equity": 8033.9,
-          "ts": 1784477195103
+          "ts": 1784512975266
         }
       ]
     },
@@ -286,7 +286,7 @@
         },
         {
           "equity": 7919.45,
-          "ts": 1784477195103
+          "ts": 1784512975266
         }
       ]
     }
@@ -831,5 +831,5 @@
     "total_tds": 147.99,
     "total_trades": 43
   },
-  "timestamp": "2026-07-19T16:06:35.103763Z"
+  "timestamp": "2026-07-20T02:02:55.266114Z"
 }
