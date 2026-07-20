@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+<title>Paper-Trading Dashboard (READ-ONLY)</title>
+<style>
+body{font-family:sans-serif;margin:2em;background:#0e1117;color:#e6e6e6}
+table{border-collapse:collapse;width:100%}
+th,td{border:1px solid #333;padding:6px 10px;text-align:left}
+th{background:#1a1f2b}
+a{color:#7cc4ff}
+.banner{background:#332200;border:1px solid #a67c00;padding:10px;margin-bottom:1em;border-radius:6px}
+</style>
+</head>
+<body>
+<div class="banner">📄 <b>PAPER TRADING ONLY</b> — read-only view. No endpoint here can place, modify, or trigger any trade.</div>
+<h1>Experiments</h1>
+<table>
+<tr><th>ID</th><th>Market</th><th>Cohorts</th><th>Ticks</th><th>Code Version</th><th>Min Notional</th><th></th></tr>
+{% for e in experiments %}
+<tr>
+<td>{{ e.experiment_id }}</td>
+<td>{{ e.market }}</td>
+<td>{{ e.cohorts | join(', ') }}</td>
+<td>{{ e.ticks }}</td>
+<td>{{ e.code_version }}</td>
+<td>{{ e.min_notional }}</td>
+<td><a href="/experiment/{{ e.experiment_id }}">view</a></td>
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>

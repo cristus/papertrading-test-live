@@ -1,0 +1,11 @@
+# IMMUTABLE RISK CONFIG — SAFETY CRITICAL. Strategy/LLM may never modify.
+emergency_pause: false
+max_capital_fraction_per_trade: 0.10
+max_open_positions_per_agent: 1
+death_equity_fraction: 0.40
+reproduction_equity_fraction: 2.00
+reproduction_child_fraction: 0.50
+allow_real_orders: false
+allow_authenticated_endpoints: false
+allow_margin_futures_leverage: false
+allow_withdraw_transfer: false

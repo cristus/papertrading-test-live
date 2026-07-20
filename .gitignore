@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Runtime data / databases
+paper_trader/data/*.sqlite
+paper_trader/data/manifest.json
+paper_trader/data/phase3_*.json
+paper_trader/dashboard_live.html
+
+# Secrets
+paper_trader/config/telegram.yaml
+.env
+*.secret
+
+# Logs
+*.log

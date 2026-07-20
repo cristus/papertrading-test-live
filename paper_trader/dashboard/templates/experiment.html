@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<title>Experiment {{ exp.id }}</title>
+<style>
+body{font-family:sans-serif;margin:2em;background:#0e1117;color:#e6e6e6}
+table{border-collapse:collapse;width:100%;margin-bottom:2em}
+th,td{border:1px solid #333;padding:6px 10px;text-align:left}
+th{background:#1a1f2b}
+a{color:#7cc4ff}
+.banner{background:#332200;border:1px solid #a67c00;padding:10px;margin-bottom:1em;border-radius:6px}
+canvas{background:#111;border:1px solid #333;margin-bottom:2em}
+</style>
+</head>
+<body>
+<div class="banner">📄 PAPER TRADING ONLY — read-only view.</div>
+<p><a href="/">&larr; back to experiments</a></p>
+<h1>Experiment {{ exp.id }} — {{ exp.market }}</h1>
+<p>Strategy: {{ exp.strategy_name }} | Seed: {{ exp.random_seed }} | Code version: {{ exp.code_version }}</p>
+
+<h2>Agents</h2>
+<table>
+<tr><th>Cohort</th><th>Starting Capital</th><th>Alive?</th><th>Death Reason</th><th>Max Drawdown</th><th>Fee Sum</th><th>TDS Sum</th><th>Fills</th><th>Min-Order Rejections</th></tr>
+{% for a in agents %}
+<tr>
+<td>{{ a.cohort }}</td>
+<td>₹{{ "%.2f"|format(a.starting_capital) }}</td>
+<td>{{ 'Yes' if survival[a.cohort].alive else 'No' }}</td>
+<td>{{ survival[a.cohort].death_reason or '-' }}</td>
+<td>{{ "%.2f%%"|format(survival[a.cohort].max_drawdown * 100) }}</td>
+<td>₹{{ "%.2f"|format(fee_burden[a.cohort].fee_sum) }}</td>
+<td>₹{{ "%.2f"|format(fee_burden[a.cohort].tds_sum) }}</td>
+<td>{{ fee_burden[a.cohort].fills }}</td>
+<td>{{ reject_counts[a.cohort] }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<h2>Equity vs Buy-and-Hold Benchmark</h2>
+<canvas id="chart" width="900" height="400"></canvas>
+<p><a href="/experiment/{{ exp.id }}/ledger">Browse full ledger &rarr;</a></p>
+
+<script>
+fetch('/api/experiment/{{ exp.id }}/equity.json').then(r => r.json()).then(data => {
+  const canvas = document.getElementById('chart');
+  const ctx = canvas.getContext('2d');
+  const colors = {tier_2k:'#7cc4ff', tier_8k:'#ffb37c', tier_20k:'#8bff7c'};
+  let allVals = [];
+  Object.values(data).forEach(d => {
+    d.equity.forEach(p => allVals.push(p.equity));
+    d.benchmark.forEach(p => allVals.push(p.equity));
+  });
+  const minV = Math.min(...allVals), maxV = Math.max(...allVals);
+  const pad = 40;
+  function xOf(i, n) { return pad + (canvas.width - 2*pad) * i / Math.max(1, n-1); }
+  function yOf(v) { return canvas.height - pad - (canvas.height - 2*pad) * (v - minV) / (maxV - minV || 1); }
+  ctx.fillStyle = '#e6e6e6';
+  ctx.fillText('Equity (solid) vs Buy&Hold (dashed) per cohort', pad, 20);
+  Object.entries(data).forEach(([cohort, d]) => {
+    ctx.strokeStyle = colors[cohort] || '#fff';
+    ctx.beginPath();
+    d.equity.forEach((p, i) => { const x=xOf(i, d.equity.length), y=yOf(p.equity); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
+    ctx.stroke();
+    ctx.setLineDash([4,4]);
+    ctx.beginPath();
+    d.benchmark.forEach((p, i) => { const x=xOf(i, d.benchmark.length), y=yOf(p.equity); i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = colors[cohort] || '#fff';
+    ctx.fillText(cohort, pad, 40 + Object.keys(colors).indexOf(cohort)*16);
+  });
+});
+</script>
+</body>
+</html>

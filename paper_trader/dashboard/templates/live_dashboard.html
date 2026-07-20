@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Phase 3 — Live Paper Trading Dashboard</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: monospace; background: #0a0e27; color: #e6e6e6; padding: 20px; }
+        .header { background: #1a1f3a; padding: 15px; border-left: 4px solid #00ff41; margin-bottom: 20px; }
+        h1 { font-size: 24px; margin-bottom: 5px; }
+        .timestamp { font-size: 12px; color: #888; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .card { background: #1a1f3a; padding: 15px; border: 1px solid #333; border-radius: 4px; }
+        .card h2 { font-size: 14px; color: #00ff41; margin-bottom: 10px; text-transform: uppercase; }
+        .metric { display: flex; justify-content: space-between; margin: 8px 0; font-size: 13px; }
+        .value { font-weight: bold; color: #00ff41; }
+        .negative { color: #ff4444; }
+        .chart { background: #111; border: 1px solid #333; padding: 10px; height: 250px; margin: 10px 0; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 10px 0; }
+        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #333; }
+        th { background: #1a1f3a; color: #00ff41; }
+        tr:hover { background: #1a1f3a; }
+        .status { padding: 8px; border-radius: 4px; font-size: 12px; }
+        .healthy { background: #004400; color: #00ff41; }
+        .warning { background: #443300; color: #ffaa00; }
+        .alert { background: #440000; color: #ff4444; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 PHASE 3 — LIVE PAPER TRADING</h1>
+        <p class="timestamp" id="timestamp">Loading...</p>
+    </div>
+
+    <div id="health-status" class="status healthy">✓ System Healthy</div>
+
+    <div class="grid">
+        <div class="card">
+            <h2>Portfolio Summary</h2>
+            <div id="portfolio" style="font-size: 13px;"></div>
+        </div>
+        <div class="card">
+            <h2>Top Performers (24h)</h2>
+            <div id="performers" style="font-size: 13px;"></div>
+        </div>
+        <div class="card">
+            <h2>Watchdog Status</h2>
+            <div id="watchdog" style="font-size: 13px;"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Agent Performance Table</h2>
+        <table id="agents-table">
+            <thead>
+                <tr>
+                    <th>Agent/Strategy</th>
+                    <th>Capital</th>
+                    <th>Equity</th>
+                    <th>P&L</th>
+                    <th>Trades</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="agents-tbody"></tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Recent Events (Fills, Deaths, Signals)</h2>
+        <table id="ledger-table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Agent</th>
+                    <th>Type</th>
+                    <th>Side</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Fee+TDS</th>
+                    <th>Reason</th>
+                </tr>
+            </thead>
+            <tbody id="ledger-tbody"></tbody>
+        </table>
+    </div>
+
+    <script>
+        async function update() {
+            const now = new Date();
+            document.getElementById('timestamp').innerText = now.toLocaleString() + ' UTC';
+
+            try {
+                const [agents_r, ledger_r, health_r] = await Promise.all([
+                    fetch('/api/agents').then(r => r.json()),
+                    fetch('/api/ledger').then(r => r.json()),
+                    fetch('/api/health').then(r => r.json())
+                ]);
+
+                // Update health
+                const h_elem = document.getElementById('health-status');
+                h_elem.className = `status ${health_r.status === 'healthy' ? 'healthy' : 'warning'}`;
+                h_elem.innerHTML = `${health_r.status === 'healthy' ? '✓' : '⚠'} 
+                    Data freshness: ${health_r.data_freshness_minutes ? health_r.data_freshness_minutes.toFixed(1) : '?'} min | 
+                    Agents alive: ${agents_r.length - health_r.dead_agents}/${agents_r.length} | 
+                    Fills (5m): ${health_r.fills_last_5m}`;
+
+                // Portfolio summary
+                const total_equity = agents_r.reduce((s, a) => s + a.equity, 0);
+                const total_pnl = total_equity - agents_r.reduce((s, a) => s + a.starting_capital, 0);
+                document.getElementById('portfolio').innerHTML = `
+                    <div class="metric">
+                        <span>Total Capital</span>
+                        <span class="value">₹${agents_r.reduce((s, a) => s + a.starting_capital, 0).toLocaleString()}</span>
+                    </div>
+                    <div class="metric">
+                        <span>Total Equity</span>
+                        <span class="value">₹${total_equity.toLocaleString('en-IN', {maximumFractionDigits: 2})}</span>
+                    </div>
+                    <div class="metric">
+                        <span>Net P&L</span>
+                        <span class="${total_pnl >= 0 ? 'value' : 'negative'}">₹${total_pnl.toLocaleString('en-IN', {maximumFractionDigits: 2})}</span>
+                    </div>
+                `;
+
+                // Top performers
+                const sorted = agents_r.sort((a, b) => b.pnl_pct - a.pnl_pct);
+                document.getElementById('performers').innerHTML = sorted.slice(0, 3).map(a => 
+                    `<div class="metric">
+                        <span>${a.cohort}</span>
+                        <span class="${a.pnl_pct >= 0 ? 'value' : 'negative'}">${a.pnl_pct.toFixed(2)}%</span>
+                    </div>`
+                ).join('');
+
+                // Agents table
+                document.getElementById('agents-tbody').innerHTML = agents_r.map(a => `
+                    <tr>
+                        <td>${a.cohort}</td>
+                        <td>₹${a.starting_capital.toLocaleString()}</td>
+                        <td>₹${a.equity.toLocaleString('en-IN', {maximumFractionDigits: 2})}</td>
+                        <td class="${a.pnl_pct >= 0 ? 'value' : 'negative'}">${a.pnl_pct.toFixed(2)}%</td>
+                        <td>${a.trades}</td>
+                        <td>${a.alive ? '✓ Alive' : '✗ Dead'}</td>
+                    </tr>
+                `).join('');
+
+                // Ledger
+                document.getElementById('ledger-tbody').innerHTML = ledger_r.slice(0, 20).map(r => `
+                    <tr>
+                        <td>${new Date(r.ts).toLocaleTimeString()}</td>
+                        <td>${r.agent_id}</td>
+                        <td>${r.event_type}</td>
+                        <td>${r.side || '-'}</td>
+                        <td>${r.market_price ? r.market_price.toFixed(0) : '-'}</td>
+                        <td>${r.quantity ? r.quantity.toFixed(8) : '-'}</td>
+                        <td>₹${((r.fee || 0) + (r.tds || 0)).toFixed(2)}</td>
+                        <td>${(r.reason || '').substring(0, 30)}</td>
+                    </tr>
+                `).join('');
+
+            } catch (e) {
+                console.error('Update failed:', e);
+            }
+        }
+
+        // Update every 5 seconds
+        update();
+        setInterval(update, 5000);
+    </script>
+</body>
+</html>

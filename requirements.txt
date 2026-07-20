@@ -1,0 +1,4 @@
+requests
+PyYAML
+flask
+pytest

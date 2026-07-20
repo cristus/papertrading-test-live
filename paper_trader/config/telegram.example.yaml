@@ -1,0 +1,8 @@
+# Copy this to config/telegram.yaml and fill in locally.
+# Never commit real bot tokens or chat IDs.
+enabled: false
+bot_token: ""
+chat_id: ""
+retry_attempts: 3
+retry_delay_seconds: 2
+send_timeout_seconds: 5

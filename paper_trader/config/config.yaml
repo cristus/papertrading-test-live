@@ -1,0 +1,30 @@
+# EDITABLE EXPERIMENT CONFIG (risk limits live in risk.yaml, immutable)
+market:
+  symbol: "BTCINR"
+  base_currency: "INR"
+  target_currency: "BTC"
+economics:
+  taker_fee_pct: 0.001      # 0.1% fee per fill
+  spread_pct: 0.0005        # 0.05% assumed bid-ask spread half-cost
+  slippage_pct: 0.001       # 0.1% adverse slippage per fill
+  tds_pct: 0.01             # 1% TDS estimate on SELL proceeds
+data:
+  mode: "backtest"
+  candle_interval: "1m"
+  backtest_ticks: 300
+  tick_seconds: 60
+strategy:
+  name: "sma_crossover"
+  params:
+    fast_window: 5
+    slow_window: 20
+cohorts:
+  - name: "tier_2k"
+    starting_capital: 2000
+  - name: "tier_8k"
+    starting_capital: 8000
+  - name: "tier_20k"
+    starting_capital: 20000
+random_seed: 42
+sizing:
+  max_capital_fraction_per_trade: 0.10

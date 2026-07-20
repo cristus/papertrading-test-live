@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+<title>Ledger — Experiment {{ exp_id }}</title>
+<style>
+body{font-family:sans-serif;margin:2em;background:#0e1117;color:#e6e6e6}
+table{border-collapse:collapse;width:100%;font-size:0.85em}
+th,td{border:1px solid #333;padding:4px 8px;text-align:left}
+th{background:#1a1f2b}
+a{color:#7cc4ff}
+input,select{background:#1a1f2b;color:#e6e6e6;border:1px solid #333;padding:4px}
+</style>
+</head>
+<body>
+<p><a href="/experiment/{{ exp_id }}">&larr; back to experiment</a></p>
+<h1>Ledger — Experiment {{ exp_id }} (append-only, read-only view)</h1>
+<form method="get">
+Agent ID: <input name="agent_id" value="{{ agent_id or '' }}">
+Event type: <input name="event_type" value="{{ event_type or '' }}">
+Side: <input name="side" value="{{ side or '' }}">
+<button type="submit">Filter</button>
+</form>
+<table>
+<tr><th>id</th><th>agent</th><th>ts</th><th>tick</th><th>event</th><th>side</th><th>price</th><th>qty</th><th>gross</th><th>fee</th><th>tds</th><th>cash_after</th><th>pos_after</th><th>reason</th></tr>
+{% for r in rows %}
+<tr>
+<td>{{ r.id }}</td><td>{{ r.agent_id }}</td><td>{{ r.ts }}</td><td>{{ r.tick_index }}</td>
+<td>{{ r.event_type }}</td><td>{{ r.side or '' }}</td><td>{{ r.market_price }}</td><td>{{ r.quantity }}</td>
+<td>{{ r.gross_amount }}</td><td>{{ r.fee }}</td><td>{{ r.tds }}</td><td>{{ r.cash_balance }}</td>
+<td>{{ r.position_qty }}</td><td>{{ r.reason }}</td>
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>
